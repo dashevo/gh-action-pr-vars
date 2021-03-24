@@ -1,0 +1,25 @@
+name: 'Runtime variables'
+description: 'Load runtime variables from PR body'
+author: 'strophy'
+branding:
+  icon: 'box'
+  color: 'blue'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Load runtime variables'
+      shell: bash
+      run: |
+        pattern="[0-1a-zA-Z_-]+=\"[0-9a-zA-Z_. -]+\""
+        echo '${{github.event.pull_request.body}}' |\
+        grep ^/set-var |\
+        cut -c10- |\
+        sed 's/\r$//' |\
+        while read line; do
+          if [[ $line =~ $pattern ]] ; then
+            echo $line
+          else
+            exit 1
+          fi
+        done >> $GITHUB_ENV
