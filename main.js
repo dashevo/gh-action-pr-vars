@@ -1,6 +1,7 @@
-const core = require('@actions/core');
 const github = require('@actions/github');
-console.log(github);
+const core = require('@actions/core');
+
+console.log(github.context);
 const pullRequestBody = github.context.payload.pull_request.body
 
 pullRequestBody
