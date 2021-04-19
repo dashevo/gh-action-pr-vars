@@ -8,7 +8,6 @@ pullRequestBody
   .filter((line) => line.startsWith("/set-var"))
   .map((line) => line.replace("/set-var ", ''))
   .forEach((line) => {
-    line.replace(/\r$/, '');
     const [key, value] = line.split('=');
-    core.setOutput(key, value);
+    core.setOutput(key, value.trim());
   });
